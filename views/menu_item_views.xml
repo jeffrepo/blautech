@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="contabilidad_auditoria"
+            name="Contabilidad"
+            active="True"
+            sequence="100"
+            groups="auditoria_externa"/>
+
+        <!-- CLIENTES -->
+        <menuitem id="menu_info_general" name="Información general" action="account.open_account_journal_dashboard_kanban" parent="contabilidad_auditoria" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_clientes" name="Clientes" parent="contabilidad_auditoria" sequence="10" groups="auditoria_externa"/>
+        <menuitem id="menu_account_move_clientes_auditoria" name="Facturas" action="account.action_move_out_invoice_type" parent="menu_clientes" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_account_move_clientes_rectificativo_auditoria" name="Facturas rectificativas" action="account.action_move_out_refund_type" parent="menu_clientes" sequence="10" groups="auditoria_externa"/>
+        <menuitem id="menu_account_move_clientes_recepciones_auditoria" name="Recepciones" action="account.action_move_out_receipt_type" parent="menu_clientes" sequence="15" groups="auditoria_externa"/>
+        <menuitem id="menu_account_payment_clientes_auditoria" name="Pagos" action="account.action_account_payments" parent="menu_clientes" sequence="25" groups="auditoria_externa"/>
+        <menuitem id="menu_product_product_clientes_auditoria" name="Productos" action="account.product_product_action_sellable" parent="menu_clientes" sequence="30" groups="auditoria_externa"/>
+        <menuitem id="menu_res_partner_clientes_auditoria" name="Clientes" action="account.res_partner_action_customer" parent="menu_clientes" sequence="40" groups="auditoria_externa"/>
+
+        <!-- PROVEEDORES -->
+        <menuitem id="menu_proveedores" name="Proveedores" parent="contabilidad_auditoria" sequence="20" groups="auditoria_externa"/>
+        <menuitem id="menu_account_move_proveedores_auditoria" name="Facturas" action="account.action_move_in_invoice_type" parent="menu_proveedores" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_account_move_proveedores_rectificativo_auditoria" name="Facturas rectificativas" action="account.action_move_in_refund_type" parent="menu_proveedores" sequence="10" groups="auditoria_externa"/>
+        <menuitem id="menu_account_move_proveedores_recepciones_auditoria" name="Recepciones" action="account.action_move_in_refund_type" parent="menu_proveedores" sequence="15" groups="auditoria_externa"/>
+        <menuitem id="menu_account_payment_proveedores_auditoria" name="Pagos" action="account.action_account_payments_payable" parent="menu_proveedores" sequence="25" groups="auditoria_externa"/>
+        <menuitem id="menu_product_product_clientes_auditoria" name="Productos" action="account.product_product_action_purchasable" parent="menu_proveedores" sequence="30" groups="auditoria_externa"/>
+        <menuitem id="menu_res_partner_proveedores_auditoria" name="Proveedores" action="account.res_partner_action_supplier" parent="menu_proveedores" sequence="40" groups="auditoria_externa"/>
+
+        <!-- CONTABILIDAD -->
+        <menuitem id="menu_contabilidad" name="Contabilidad" parent="contabilidad_auditoria" sequence="30" groups="auditoria_externa"/>
+        <menuitem id="menu_contabilidad_varios" name="Varios" parent="menu_contabilidad" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_contabilidad_account_move" name="Asientos contables" action="account.action_move_journal_line" parent="menu_contabilidad_varios" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_contabilidad_account_move_line" name="Apuntes contables" action="account.action_account_moves_all" parent="menu_contabilidad_varios" sequence="10" groups="auditoria_externa"/>
+
+        <!-- INFORMES -->
+        <menuitem id="menu_informes" name="Informes" parent="contabilidad_auditoria" sequence="40" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_declaracion" name="Declaraciones genéricas" parent="menu_informes" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_ganancia" name="Ganancias y Pérdidas" action="account_reports.account_financial_html_report_action_1" parent="menu_informes_declaracion" sequence="10" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_balance" name="Balance de Situación" action="account_reports.account_financial_html_report_action_2" parent="menu_informes_declaracion" sequence="15" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_resumen" name="Resumen ejecutivo" action="account_reports.account_financial_html_report_action_3" parent="menu_informes_declaracion" sequence="20" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_estado" name="Estado de Flujos de Efectivo" action="account_reports.action_account_report_cs" parent="menu_informes_declaracion" sequence="25" groups="auditoria_externa"/>
+
+        <menuitem id="menu_informes_empresas" name="Informes de Empresas" parent="menu_informes" sequence="10" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_mayor_empresa" name="Libro mayor de empresa" action="account.action_account_moves_ledger_partner" parent="menu_informes_empresas" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_vencida_cobrar" name="Vencida por Cobrar" action="account_reports.action_account_report_ar" parent="menu_informes_empresas" sequence="10" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_vencida_pagar" name="Vencida por Pagar" action="account_reports.action_account_report_ap" parent="menu_informes_empresas" sequence="15" groups="auditoria_externa"/>
+
+        <menuitem id="menu_informes_auditoria" name="Informes de auditoría" parent="menu_informes" sequence="15" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_libro_mayor" name="Libro mayor" action="account_reports.action_account_report_general_ledger" parent="menu_informes_auditoria" sequence="5" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_balance_compro" name="Balance de Comprobación" action="account_reports.action_account_report_coa" parent="menu_informes_auditoria" sequence="10" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_diarios_consolidados" name="Diarios consolidados" action="account_reports.action_account_report_cj" parent="menu_informes_auditoria" sequence="15" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_impuestos" name="Reporte Impuestos" action="account_reports.action_account_report_gt" parent="menu_informes_auditoria" sequence="20" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_auditoria_libros" name="Auditoría de Libros" action="account_reports.action_account_print_journal_menu" parent="menu_informes_auditoria" sequence="25" groups="auditoria_externa"/>
+
+        <menuitem id="menu_informes_libro_compras" name="Libro de compras" action="account_gt.launch_account_gt_libro_compras" parent="menu_informes_auditoria" sequence="30" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_libro_ventas" name="Libro de ventas" action="account_gt.launch_account_gt_libro_ventas" parent="menu_informes_auditoria" sequence="35" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_libro_bancos" name="Libro de bancos" action="account_gt.launch_account_gt_libro_bancos" parent="menu_informes_auditoria" sequence="40" groups="auditoria_externa"/>
+        <menuitem id="menu_informes_libro_conciliacion_bancaria" name="Libro conciliacion bancaria" action="account_gt.launch_account_gt_libro_conciliacion_bancaria" parent="menu_informes_auditoria" sequence="45" groups="auditoria_externa"/>
+
+
+    </data>
+</odoo>

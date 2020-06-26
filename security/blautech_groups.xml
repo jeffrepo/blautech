@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="res.groups" id="auditoria_externa">
+            <field name="name">Auditoria externa solo lectura</field>
+        </record>
+
+    </data>
+</odoo>
