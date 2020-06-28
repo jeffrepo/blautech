@@ -16,8 +16,9 @@ class BlautechCompraProyectoLinea(models.Model):
     _name = "blautech.compra_proyecto_linea"
     _rec_name = "proyecto_id"
 
-    purchase_id = fields.Many2one('purchase.order','Compra')
+    move_id = fields.Many2one('account.move','Factura')
     proyecto_id = fields.Many2one('blautech.proyecto','Proyecto')
+    porcentaje = fields.Float('%')
 
 
 class BlautechProyecto(models.Model):

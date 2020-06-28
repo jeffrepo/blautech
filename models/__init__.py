@@ -1,3 +1,3 @@
 # -*- encoding: utf-8 -*-
-from . import purchase
+from . import account
 from . import blautech

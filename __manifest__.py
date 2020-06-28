@@ -19,7 +19,7 @@
     'data': [
         'security/blautech_groups.xml',
         'views/menu_item_views.xml',
-        # 'views/purchase_views.xml',
+        'views/account_move_views.xml',
         'security/ir.model.access.csv',
 
     ],
