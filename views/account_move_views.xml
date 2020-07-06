@@ -15,6 +15,7 @@
                                     <field name="porcentaje" sum="Porcentaje"/>
                                 </tree>
                             </field>
+                            <field name="id_blautech"/>
                         </group>
                     </page>
                 </page>
