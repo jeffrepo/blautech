@@ -19,8 +19,9 @@ import json
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    proyecto_ids = fields.One2many('blautech.compra_proyecto_linea','move_id','Proyectos')
+    proyecto_ids = fields.One2many('blautech.compra_proyecto_linea','move_id','C.C./PROYECTOS')
     id_blautech = fields.Char('Blautech id')
+    departamento = fields.Selection([ ('administrativo', 'Administrativo'),('operativo', 'Operativo'),('comercial', 'Comercial'),('otros', 'Otros')],'Departamento')
 
     def _get_proyectos(self):
         proyecto_ids = self.env['blautech.proyecto'].search([])
@@ -62,6 +63,8 @@ class AccountMove(models.Model):
                     suma_porcentaje += linea_proyecto.porcentaje
                     proy = {"_id": str(linea_proyecto.proyecto_id.id_blautech),"distributionType": "PERCENTAGE","distributionValue": str(linea_proyecto.porcentaje)}
                     lineas_proyectos.append(proy)
+            else:
+                raise UserError(str('FAVOR DE INGRESAR POR LO MENOS UN PROYECTO O CENTRO DE COSTO'))
 
             if suma_porcentaje != 100:
                 raise UserError(str('EL PORCENTAJE DE PROYECTOS/CENTROS DE COSTOS NO PUEDE SER DIFERENTE DE 100%'))
