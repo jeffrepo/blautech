@@ -95,7 +95,7 @@ class AccountMove(models.Model):
                     factura_proveedor_body={"projectDistribution": lineas_proyectos,
                             "totalAmount": str(factura.amount_total),
                             "currency": str(factura.currency_id.name),
-                            "vendor": str(factura.invoice_user_id.name),
+                            "vendor": str(factura.partner_id.name),
                             "purchaseOrder": str(factura.name),
                             "purchaseDate": str(factura.invoice_date),
                             "datail": {
