@@ -26,3 +26,4 @@ class BlautechProyecto(models.Model):
 
     name = fields.Char('Nombre')
     id_blautech = fields.Char('Id blautech')
+    active = fields.Boolean('Activo', default=True)

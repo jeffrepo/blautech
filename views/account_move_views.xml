@@ -6,15 +6,15 @@
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
-                <field name="fiscal_position_id" position="after">
+                <!-- <field name="fiscal_position_id" position="after">
                     <field name="departamento"/>
-                </field>
+                </field> -->
                 <page name="other_info" position="after">
                     <page name="proyectos" string="C.C./PROYECTOS">
                         <group>
                             <field name="proyecto_ids" mode="tree">
                                 <tree string="Proyectos" editable="bottom">
-                                    <field name="proyecto_id"/>
+                                    <field name="proyecto_id" domain="[('active', '=', True)]"/>
                                     <field name="porcentaje" sum="Porcentaje"/>
                                 </tree>
                             </field>
