@@ -69,7 +69,7 @@ class AccountMove(models.Model):
                     if p not in activados:
                         logging.warn('A ELIMINAR')
                         logging.warn(proyecto_dic[p])
-                        proyecto_dic[p].unlink()
+                        proyecto_dic[p].write({'active':False})
 
     def post(self):
         res = super(AccountMove, self).post()
