@@ -74,7 +74,7 @@ class AccountMove(models.Model):
     def post(self):
         res = super(AccountMove, self).post()
         for factura in self:
-            if factura.type in ['in_receipt','in_invoice'] and factura.proyecto_ids:
+            if factura.type in ['in_receipt','in_invoice','entry'] and factura.proyecto_ids:
                 suma_porcentaje = 0
                 lineas_proyectos = []
                 if factura.proyecto_ids:
@@ -92,8 +92,11 @@ class AccountMove(models.Model):
                     logging.warn(factura.invoice_sequence_number_next)
                     logging.warn(factura.invoice_sequence_number_next_prefix)
                     logging.warn(factura.name)
+                    total = factura.amount_total
+                    if factura.type == 'entry':
+                        total = factura.amount_total_signed
                     factura_proveedor_body={"projectDistribution": lineas_proyectos,
-                            "totalAmount": str(factura.amount_total),
+                            "totalAmount": str(total),
                             "currency": str(factura.currency_id.name),
                             "vendor": str(factura.partner_id.name),
                             "purchaseOrder": str(factura.name),
