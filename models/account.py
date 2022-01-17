@@ -44,25 +44,26 @@ class AccountMove(models.Model):
         response_json = response.json()
         proyecto_dic = self._get_proyectos()
         activados = []
-        if response_json['success'] and len(response_json['result']) > 0:
-            for proyecto in response_json['result']:
-                logging.warn(proyecto)
-                if proyecto['status'] == 'ACTIVE':
-                    if proyecto['_id'] not in proyecto_dic:
-                        # logging.warn(float(proyecto['_id']))
-                        proyecto_id = self.env['blautech.proyecto'].create({'name': proyecto['name'],'id_blautech': proyecto['_id'],'active':True})
-                        # logging.warn(proyecto_id)
-                        activados.append(proyecto['_id'])
-                    else:
-                        logging.warn('Ya existe')
-                        proyecto_dic[proyecto['_id']].write({'name': proyecto['name']})
-                        activados.append(proyecto['_id'])
-                # else:
-                #     if proyecto['_id'] in proyecto_dic:
-                #         p = self.env['blautech.proyecto'].search([('id_blautech','=',proyecto['_id'])])
-                #         if p:
-                #             logging.warn('PASÓ A FALSO')
-                #             p.write({'active': False})
+        if 'success' in response_json and 'result' in response_json:
+            if response_json['success'] and len(response_json['result']) > 0:
+                for proyecto in response_json['result']:
+                    logging.warn(proyecto)
+                    if proyecto['status'] == 'ACTIVE':
+                        if proyecto['_id'] not in proyecto_dic:
+                            # logging.warn(float(proyecto['_id']))
+                            proyecto_id = self.env['blautech.proyecto'].create({'name': proyecto['name'],'id_blautech': proyecto['_id'],'active':True})
+                            # logging.warn(proyecto_id)
+                            activados.append(proyecto['_id'])
+                        else:
+                            logging.warn('Ya existe')
+                            proyecto_dic[proyecto['_id']].write({'name': proyecto['name']})
+                            activados.append(proyecto['_id'])
+                    # else:
+                    #     if proyecto['_id'] in proyecto_dic:
+                    #         p = self.env['blautech.proyecto'].search([('id_blautech','=',proyecto['_id'])])
+                    #         if p:
+                    #             logging.warn('PASÓ A FALSO')
+                    #             p.write({'active': False})
 
             if len(activados) > 0:
                 for p in proyecto_dic:
