@@ -21,6 +21,7 @@
         'views/menu_item_views.xml',
         'views/account_move_views.xml',
         'security/ir.model.access.csv',
+        'views/blautech_presupuesto_wizard_view.xml',
 
     ],
 }
