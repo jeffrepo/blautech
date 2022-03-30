@@ -14,7 +14,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['account','base'],
+    'depends': ['account','base', 'account_accountant'],
 
     'data': [
         'security/blautech_groups.xml',
