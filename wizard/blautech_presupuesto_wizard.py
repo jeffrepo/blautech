@@ -35,20 +35,12 @@ class PresupuestoWizard(models.TransientModel):
             #Tamaño de la columna
             hoja.set_column('A:A',30)
             hoja.set_column('B:N',20)
-            # hoja.set_column('D:E',15)
 
             timezone = pytz.timezone(self._context.get('tz') or self.env.user.tz or 'UTC')
 
             formato_titulo = libro.add_format({'size': 11, 'color':'#ffffff', 'align':'center', 'fg_color':'#21618C'})
             formato_totales = libro.add_format({'size': 11, 'color':'#ffffff', 'align':'right', 'fg_color':'#2E86C1'})
 
-            # hoja.merge_range('A2:E2', 'Reporte de presupuestos', formato_titulo)
-
-            # hoja.write(4,0, 'Posición presupuestaria', formato_subtitulo)
-            # hoja.write(4,1, 'Fecha inicio', formato_subtitulo)
-            # hoja.write(4,2, 'Fecha final', formato_subtitulo)
-            # hoja.write(4,3, 'Importe previsto', formato_subtitulo)
-            # hoja.write(4,4, 'Importe real', formato_subtitulo)
 
             hoja.write(0,0, 'SOLUCIONES BLAUTECH', formato_titulo)
             anio_final = w.fecha_final.strftime('%Y')
@@ -71,8 +63,9 @@ class PresupuestoWizard(models.TransientModel):
                 for presupuesto in analisis_presupuestos:
                     if presupuesto.date_from >= w.fecha_inicio and presupuesto.date_to <= w.fecha_final:
                         if presupuesto.general_budget_id:
-                            if presupuesto.general_budget_id.id not in dicc_analisis_presupuestario:
-                                dicc_analisis_presupuestario[presupuesto.general_budget_id.id]={
+                            compania_posicion_presupuestaria = str(linea.compania.id)+'-'+str(presupuesto.general_budget_id.id)
+                            if compania_posicion_presupuestaria not in dicc_analisis_presupuestario:
+                                dicc_analisis_presupuestario[compania_posicion_presupuestaria]={
                                 'posicion_presupuestaria':presupuesto.general_budget_id.name,
                                 'Enero':0,
                                 'Febrero':0,
@@ -87,46 +80,89 @@ class PresupuestoWizard(models.TransientModel):
                                 'Noviembre':0,
                                 'Diciembre':0,
                                 'total': 0.0,
+                                'compania': presupuesto.company_id.id
                                 }
-                        if presupuesto.general_budget_id.id in dicc_analisis_presupuestario:
-                            if presupuesto.date_from.strftime('%m') == presupuesto.date_to.strftime('%m'):
-                                # logging.warning('Que fecha tiene esto?')
-                                # logging.warning(presupuesto.date_from.strftime('%m') + ' ' +presupuesto.date_to.strftime('%m'))
+                        if compania_posicion_presupuestaria in dicc_analisis_presupuestario and linea.compania.id == dicc_analisis_presupuestario[compania_posicion_presupuestaria]['compania']:
+                            if presupuesto.date_from.strftime('%m') == presupuesto.date_to.strftime('%m') :
                                 if presupuesto.date_from.strftime('%m') == '01':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Enero']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Enero']+= round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Enero']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '02':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Febrero']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Febrero']+=round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Febrero']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '03':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Marzo']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Marzo']+=round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Marzo']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '04':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Abril']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Abril']+=round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Abril']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '05':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Mayo']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Mayo']+=round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Mayo']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '06':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Junio']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Junio']+=round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Junio']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '07':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Julio']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Julio']+= round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Julio']+= round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '08':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Agosto']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Agosto']+= round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Agosto']+= round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '09':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Septiembre']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Septiembre']+= round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Septiembre']+= round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '10':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Octubre']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Octubre']+=round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Octubre']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '11':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Noviembre']+=presupuesto.planned_amount
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Noviembre']+= round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Noviembre']+= round(presupuesto.planned_amount / linea.tipo_cambio,2)
                                 if presupuesto.date_from.strftime('%m') == '12':
-                                    dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['Diciembre']+=presupuesto.planned_amount
-                                dicc_analisis_presupuestario[presupuesto.general_budget_id.id]['total']+=presupuesto.planned_amount
-                #             if mes_pos_presupuestaria in dicc_analisis_presupuestario and presupuesto.planned_amount:
-                #                 if presupuesto.planned_amount != 0:
-                #                     logging.warning(fecha_inicio+'----'+presupuesto.general_budget_id.name+':    '+str(presupuesto.planned_amount) + ' / '+ str(linea.tipo_cambio))
-                #                     calculo = round(presupuesto.planned_amount / linea.tipo_cambio, 2)
-                #                 dicc_analisis_presupuestario[mes_pos_presupuestaria]['importe_previsto'] += calculo
-                #                 if presupuesto.practical_amount != 0:
-                #                     calculo_importe_real = round(presupuesto.practical_amount/ linea.tipo_cambio,2)
-                #                 dicc_analisis_presupuestario[mes_pos_presupuestaria]['importe_real'] += calculo_importe_real
-                # logging.warning('')
-                # logging.warning('')
+                                    if presupuesto.planned_amount < 0:
+                                        valor_positivo = presupuesto.planned_amount * -1
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Diciembre']+= round(valor_positivo / linea.tipo_cambio,2)
+                                    else:
+                                        dicc_analisis_presupuestario[compania_posicion_presupuestaria]['Diciembre']+= round(presupuesto.planned_amount / linea.tipo_cambio,2)
+
+                                if presupuesto.planned_amount < 0:
+                                    valor_positivo = presupuesto.planned_amount * -1
+                                    dicc_analisis_presupuestario[compania_posicion_presupuestaria]['total']+=round(valor_positivo / linea.tipo_cambio,2)
+                                else:
+                                    dicc_analisis_presupuestario[compania_posicion_presupuestaria]['total']+=round(presupuesto.planned_amount / linea.tipo_cambio,2)
+
 
             fila = 5
             total_enero, total_febrero, total_marzo, total_abril, total_mayo, total_junio, total_julio, total_agosto, total_septiembre=(0,0,0,0,0,0,0,0,0)
@@ -140,29 +176,29 @@ class PresupuestoWizard(models.TransientModel):
                         hoja.write(fila,columna, dicc_analisis_presupuestario[elemento][ms])
                         columna+=1
                         if ms == 'Enero':
-                            total_enero += dicc_analisis_presupuestario[elemento][ms]
+                            total_enero += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Febrero':
-                            total_febrero += dicc_analisis_presupuestario[elemento][ms]
+                            total_febrero += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Marzo':
-                            total_marzo += dicc_analisis_presupuestario[elemento][ms]
+                            total_marzo += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Abril':
-                            total_abril += dicc_analisis_presupuestario[elemento][ms]
+                            total_abril += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Mayo':
-                            total_mayo += dicc_analisis_presupuestario[elemento][ms]
+                            total_mayo += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Junio':
-                            total_junio += dicc_analisis_presupuestario[elemento][ms]
+                            total_junio += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Julio':
-                            total_julio += dicc_analisis_presupuestario[elemento][ms]
+                            total_julio += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Agosto':
-                            total_agosto += dicc_analisis_presupuestario[elemento][ms]
+                            total_agosto += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Septiembre':
-                            total_septiembre += dicc_analisis_presupuestario[elemento][ms]
+                            total_septiembre += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Noviembre':
-                            total_noviembre += dicc_analisis_presupuestario[elemento][ms]
+                            total_noviembre += round(dicc_analisis_presupuestario[elemento][ms],2)
                         if ms == 'Diciembre':
-                            total_diciembre += dicc_analisis_presupuestario[elemento][ms]
+                            total_diciembre += round(dicc_analisis_presupuestario[elemento][ms],2)
                 hoja.write(fila,columna, dicc_analisis_presupuestario[elemento]['total'])
-                total_general +=dicc_analisis_presupuestario[elemento]['total']
+                total_general += round(dicc_analisis_presupuestario[elemento]['total'],2)
                 fila+=1
             hoja.write(fila,0, 'RESULTADO', formato_titulo)
             hoja.write(fila,1, total_enero, formato_totales)
@@ -178,15 +214,6 @@ class PresupuestoWizard(models.TransientModel):
             hoja.write(fila,11, total_noviembre, formato_totales)
             hoja.write(fila,12, total_diciembre, formato_totales)
             hoja.write(fila,13, total_general, formato_totales)
-            # estilo_fecha = libro.add_format({'align':'center'})
-            # for elemento1 in dicc_analisis_presupuestario:
-            #     hoja.write(fila,0, dicc_analisis_presupuestario[elemento1]['posicion_presupuestaria'])
-            #     hoja.write(fila,1, dicc_analisis_presupuestario[elemento1]['fecha_inicio'], estilo_fecha)
-            #     hoja.write(fila,2, dicc_analisis_presupuestario[elemento1]['fecha_final'], estilo_fecha)
-            #     hoja.write(fila,3, dicc_analisis_presupuestario[elemento1]['importe_previsto'])
-            #     hoja.write(fila,4, dicc_analisis_presupuestario[elemento1]['importe_real'])
-            #     fila+=1
-
 
             logging.warning('diccionario')
             logging.warning(dicc_analisis_presupuestario)
