@@ -14,7 +14,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['account','base', 'account_accountant'],
+    'depends': ['account','base', 'account_accountant', 'sale'],
 
     'data': [
         'security/blautech_groups.xml',
@@ -22,6 +22,7 @@
         'views/account_move_views.xml',
         'security/ir.model.access.csv',
         'views/blautech_presupuesto_wizard_view.xml',
+        'views/sale_order_views.xml'
 
     ],
 }

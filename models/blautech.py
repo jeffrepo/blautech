@@ -14,16 +14,20 @@ from odoo.tools.misc import formatLang, get_lang
 
 class BlautechCompraProyectoLinea(models.Model):
     _name = "blautech.compra_proyecto_linea"
-    _rec_name = "proyecto_id"
+    # _rec_name = "proyecto_id"
 
     move_id = fields.Many2one('account.move','Factura')
-    proyecto_id = fields.Many2one('blautech.proyecto','Proyecto')
-    porcentaje = fields.Float('%')
+    sale_id = fields.Many2one('sale.order', 'Ventas')
+    # proyecto_id = fields.Many2one('blautech.proyecto','Proyecto')
+    codigo_proyecto = fields.Char('Código', size=10)
+    # porcentaje = fields.Float('%')
+    porcentaje_proyecto = fields.Float('Porcentaje')
+    valor_proyecto = fields.Float('Valor')
 
 
-class BlautechProyecto(models.Model):
-    _name = "blautech.proyecto"
-
-    name = fields.Char('Nombre')
-    id_blautech = fields.Char('Id blautech')
-    active = fields.Boolean('Activo', default=True)
+# class BlautechProyecto(models.Model):
+#     _name = "blautech.proyecto"
+#
+#     name = fields.Char('Nombre')
+#     id_blautech = fields.Char('Id blautech')
+#     active = fields.Boolean('Activo', default=True)
