@@ -56,7 +56,7 @@
         <menuitem id="menu_informes_libro_compras" name="Libro de compras" action="account_gt.launch_account_gt_libro_compras" parent="menu_informes_auditoria" sequence="30" groups="auditoria_externa"/>
         <menuitem id="menu_informes_libro_ventas" name="Libro de ventas" action="account_gt.launch_account_gt_libro_ventas" parent="menu_informes_auditoria" sequence="35" groups="auditoria_externa"/>
         <menuitem id="menu_informes_libro_bancos" name="Libro de bancos" action="account_gt.launch_account_gt_libro_bancos" parent="menu_informes_auditoria" sequence="40" groups="auditoria_externa"/>
-        <menuitem id="menu_informes_libro_conciliacion_bancaria" name="Libro conciliacion bancaria" action="account_gt.launch_account_gt_libro_conciliacion_bancaria" parent="menu_informes_auditoria" sequence="45" groups="auditoria_externa"/>
+        <!-- <menuitem id="menu_informes_libro_conciliacion_bancaria" name="Libro conciliacion bancaria" action="account_gt.launch_account_gt_libro_conciliacion_bancaria" parent="menu_informes_auditoria" sequence="45" groups="auditoria_externa"/> -->
 
 
     </data>
