@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-        <record id="blautech_view_account_move_form" model="ir.ui.view">
-            <field name="name">blautech.account.move.form</field>
-            <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.view_move_form"/>
+        <record id="blautech_view_sale_order_form" model="ir.ui.view">
+            <field name="name">blautech.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <!-- <field name="fiscal_position_id" position="after">
                     <field name="departamento"/>
                 </field> -->
-                <page name="other_info" position="after">
+                <page name="customer_signature" position="after">
                     <page name="proyectos" string="C.C./PROYECTOS">
-                        <group>
-                            <field name="proyecto_ids" mode="tree">
+                        <group >
+                            <field name="proyecto_ids" mode="tree" >
                                 <tree string="Proyectos" editable="bottom">
-                                    <field name="codigo_proyecto" />
+                                    <field name="codigo_proyecto" class="o_column_sortable"/>
                                     <!-- domain="[('active', '=', True)]" -->
                                     <field name="porcentaje_proyecto" sum="Porcentaje"/>
                                     <field name="valor_proyecto"/>
@@ -26,12 +26,6 @@
                 </page>
             </field>
         </record>
-
-        <!-- <field name="proyecto_ids" mode="tree" attrs="{'readonly': [('state','not in',['draft'])]}">
-            <tree string="Proyectos" editable="bottom">
-                <field name="proyecto_id"/>
-            </tree>
-        </field> -->
 
 
 </odoo>
