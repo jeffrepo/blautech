@@ -36,7 +36,7 @@
         <!-- INFORMES -->
         <menuitem id="menu_informes" name="Informes" parent="contabilidad_auditoria" sequence="40" groups="auditoria_externa"/>
         <menuitem id="menu_informes_declaracion" name="Declaraciones genéricas" parent="menu_informes" sequence="5" groups="auditoria_externa"/>
-        <!-- <menuitem id="menu_informes_ganancia" name="Ganancias y Pérdidas" action="account_reports.account_financial_html_report_action_1" parent="menu_informes_declaracion" sequence="10" groups="auditoria_externa"/> V19 -->
+        <menuitem id="menu_informes_ganancia" name="Ganancias y Pérdidas" action="account_reports.action_account_report_pl" parent="menu_informes_declaracion" sequence="10" groups="auditoria_externa"/>
         <menuitem id="menu_informes_balance" name="Balance general" action="account_reports.action_account_report_bs" parent="menu_informes_declaracion" sequence="15" groups="auditoria_externa"/>
         <menuitem id="menu_informes_resumen" name="Resumen ejecutivo" action="account_reports.action_account_report_exec_summary" parent="menu_informes_declaracion" sequence="20" groups="auditoria_externa"/>
         <menuitem id="menu_informes_estado" name="Estado de Flujos de Efectivo" action="account_reports.action_account_report_cs" parent="menu_informes_declaracion" sequence="25" groups="auditoria_externa"/>
