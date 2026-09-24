@@ -28,3 +28,31 @@ odoo-bin -c /ruta/odoo.conf -d BASE_DE_PRUEBAS -u blautech --test-enable --test-
 Comprobar también con un usuario de auditoría externa: abrir Balance general,
 desplegar las cuentas y verificar `código + nombre`, así como las exportaciones
 PDF/XLSX. El acceso debe conservarse dentro de los permisos ya asignados al usuario.
+
+## Publicación del asiento al confirmar pagos (Odoo 19)
+
+Una cuenta de pagos pendientes no conciliable puede hacer que Odoo calcule el
+pago como `paid` cuando su asiento todavía está en borrador. La confirmación
+estándar puede omitir entonces ese pago y el asistente no concilia sus apuntes
+con la factura, porque solo aplica apuntes publicados.
+
+Después de la confirmación estándar, el módulo publica únicamente los asientos
+que siguen en borrador de los pagos confirmados (`in_process` o `paid`). Conserva
+las validaciones y permisos de Odoo. No fuerza el estado de la factura ni crea
+un segundo pago. Las cuentas conciliables mantienen el flujo de conciliación
+bancaria y los pagos parciales conservan su saldo pendiente.
+
+El cambio actúa al confirmar pagos; no corrige registros anteriores de forma
+masiva. Los pagos existentes con asiento en borrador deben revisarse y publicar
+su asiento y aplicarlo a la factura correspondiente.
+
+Antes de desplegar en producción, ejecutar en una base de pruebas:
+
+```sh
+odoo-bin -c /ruta/odoo.conf -d BASE_DE_PRUEBAS -u blautech --test-enable --test-tags /blautech:TestPaymentEntryPosting --stop-after-init
+```
+
+Las pruebas cubren facturas y pagos en distintas monedas, cuentas pendientes
+conciliables y no conciliables, pagos parciales, confirmación repetida y el flujo
+sin cuenta de pagos pendientes. Fuerzan el recálculo del estado antes de confirmar
+para reproducir la secuencia que dejaba el asiento sin publicar.
